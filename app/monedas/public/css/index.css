@@ -1,0 +1,14 @@
+.card-button {
+    user-select: none;
+    cursor: pointer;
+    transition-duration: .2s;
+}
+
+.card-button label {
+    user-select: none;
+    cursor: pointer;
+}
+
+.card-button:hover {
+    box-shadow: 1px 1px 5px 0px black;
+}

@@ -1,0 +1,9 @@
+.input-group-text {
+    width: 42px;
+}
+
+.logo {
+    width: 100%;
+    position: absolute;
+    bottom: calc(100% + 10px);
+}

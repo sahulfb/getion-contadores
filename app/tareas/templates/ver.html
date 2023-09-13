@@ -1,0 +1,234 @@
+<script>
+    const ID = `{$tarea->id}`;
+    const CAMBIOS = JSON.parse(`{$json_cambios}`);
+</script>
+
+<div class="px-2 pb-3">
+    <form class="card mb-3" id="form-datos">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Tarea N° {$tarea->id}</h5>
+                <a href="{$base_url}/Tareas/">Volver</a>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="form-group col-12 col-md-6">
+                    <label class="mb-0">ID</label>
+                    <input type="text" disabled class="form-control" value="{$tarea->id}" />
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label class="mb-0">Empresa</label>
+                    <select required name="empresa" class="form-control">
+                        <option value="">Seleccione una empresa...</option>
+                        {foreach from=$empresas item=empresa}
+                            <option value="{$empresa.idEmpresa}" {($empresa.idEmpresa == $objEmpresa->id) ? 'selected' : ''}>
+                                {$empresa.razon_social}
+                            </option>
+                        {/foreach}
+                    </select>
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label class="mb-0">Asignado a</label>
+                    <select required name="usuario" class="form-control">
+                        <option value="">Seleccione un usuario...</option>
+                        {foreach from=$usuarios item=usuario}
+                            <option value="{$usuario.idUsuario}" {($usuario.idUsuario == $objUsuario->id) ? 'selected' : ''}>
+                                {$usuario.nombre}
+                            </option>
+                        {/foreach}
+                    </select>
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label class="mb-0">Creado el</label>
+                    <input type="date" disabled class="form-control" value="{$tarea->created_at|date_format:'%Y-%m-%d'}" />
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label class="mb-0">Vence el</label>
+                    <input type="date" required name="fecha_vencimiento" class="form-control" value="{$tarea->fecha_vencimiento|date_format:'%Y-%m-%d'}" />
+                </div>
+                <div class="form-group col-12 col-md-6">
+                    <label class="mb-0">Estado</label>
+                    <input type="text" disabled class="form-control bg-{$estado->color_class} text-white" value="{$estado->nombre}" />
+                </div>
+                <div class="form-group col-12 mb-0">
+                    <label class="mb-0">Detalle</label>
+                    <textarea class="form-control" name="descripcion" required cols="30" rows="3">{$tarea->descripcion}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-footer text-right">
+            {if $estado->id == '1'}
+                <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-anular" style="width: 100px;">Anular</button>
+                <button class="btn btn-primary" type="button" onclick="cerrar()" style="width: 100px;">Cerrar</button>
+                <button class="btn btn-success" type="submit" style="width: 100px;">Actualizar</button>
+            {elseif $estado->id == '2'}
+                <button class="btn btn-danger" type="button" data-toggle="modal" data-target="#modal-anular" style="width: 100px;">Anular</button>
+                <button class="btn btn-primary" type="button" onclick="cerrar()" style="width: 100px;">Cerrar</button>
+                <button class="btn btn-success" type="submit" style="width: 100px;">Actualizar</button>
+            {elseif  $estado->id == '3'}
+
+            {else}
+                <button class="btn btn-primary" type="button" onclick="abrir()" style="width: 100px;">Abrir</button>
+            {/if}
+        </div>
+    </form>
+
+    <div class="card">
+        <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Historial</h5>
+                <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-nuevo">
+                    <i class="fas fa-plus"></i> Nuevo
+                </button>
+            </div>
+        </div>
+        
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm table-striped table-hover mb-0 w-100">
+                    <thead>
+                        <tr>
+                            <th style="width: 175px;">Fecha</th>
+                            <th style="width: 200px;">Usuario</th>
+                            <th style="width: auto;">Comentario</th>
+                            <th style="width: 50px;">Opc.</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {if $cambios|count > 0}
+                            {foreach from=$cambios item=cambio}
+                                <tr {if $cambio.anulado == '1'} class="table-danger" {/if}>
+                                    <td class="text-center">{$cambio.created_at|date_format:"%d/%m/%Y - %H:%M:%S"}</td>
+                                    <td class="text-left">{$cambio.usuario->nombre}</td>
+                                    <td class="text-left">{$cambio.comentario}</td>
+                                    <td class="text-center">
+                                        {if $cambio.anulado == '0'}
+                                            <button class="btn btn-sm btn-danger" onclick="modal_anular_accion(`{$cambio.id}`)">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        {else}
+                                            <button class="btn btn-sm btn-danger" disabled>
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        {/if}
+                                    </td>
+                                </tr>
+                            {/foreach}
+                        {else}
+                                <tr>
+                                    <td colspan="100">
+                                        <h5 class="text-center mb-0 p-3">No hay cambios registrados.</h5>
+                                    </td>
+                                </tr>
+                        {/if}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL ANULAR -->
+<div class="modal fade" id="modal-anular">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="mb-0">Anular Tarea</h5>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" name="id" id="anular-input-id">
+                <label>¿Esta seguro que desea anular la tarea <b>N° {$tarea->id}</b>?</label>
+
+                <div class="form-group mb-0">
+                    <b class="mb-0">Justificación:</b>
+                    <textarea class="form-control" id="anular-justificacion" cols="30" rows="3" placeholder="Justificación..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-secondary w-100px" data-dismiss="modal">
+                    Cerrar
+                </button>
+
+                <button type="submit" onclick="anular()" class="btn btn-danger w-100px">
+                    Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- FIN MODAL ANULAR -->
+
+<!-- MODAL NUEVO -->
+<div class="modal fade" id="modal-nuevo">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="form-nuevo">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="mb-0">Nueva acción</h5>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <p>Agregar una acción o comentario a la tarea actual:</p>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group mb-0">
+                            <b class="mb-0">Acción o Comentario</b>
+                            <textarea class="form-control" placeholder="Acción o Comentario..." name="comentario" required cols="30" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-secondary w-100px" data-dismiss="modal">
+                    Cerrar
+                </button>
+
+                <button type="submit" class="btn btn-primary w-100px">
+                    Registrar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- FIN MODAL NUEVO -->
+
+<!-- MODAL ANULAR ACCION -->
+<div class="modal fade" id="modal-anular_accion">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <form class="modal-content" id="form-anular_accion">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="mb-0">Anular Acción</h5>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" name="id" id="anular_accion-input-id">
+                <label>Esta apunto de anular la siguiente acción del historial:</label><br>
+                <label class="mb-0">
+                    <b>Fecha:</b> <span id="anular_accion-label-fecha"></span><br>
+                    <b>Usuario:</b> <span id="anular_accion-label-usuario"></span><br>
+                    <b>Comentario:</b> <span id="anular_accion-label-comentario"></span><br>
+                </label>
+            </div>
+
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-outline-secondary w-100px" data-dismiss="modal">
+                    Cerrar
+                </button>
+
+                <button type="submit" class="btn btn-danger w-100px">
+                    Confirmar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- FIN MODAL ANULAR ACCION -->
