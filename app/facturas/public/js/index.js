@@ -11,7 +11,8 @@ let filtros = {
         document.getElementById('filter-status-1'),
         document.getElementById('filter-status-2'),
         document.getElementById('filter-status-3'),
-        document.getElementById('filter-status-4')
+        document.getElementById('filter-status-4'),
+        document.getElementById('filter-status-5')
     ],
     fecha: {
         desde: document.getElementById("filter-fecha-desde"),
@@ -70,6 +71,9 @@ let tabla = $('#'+idTabla).DataTable( {
             break;
                 
             case 4: row.className += " table-success";
+            break;
+
+            case 5: row.className += " table-danger";
             break;
         }
     },

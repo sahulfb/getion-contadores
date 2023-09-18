@@ -3,7 +3,8 @@ let form = document.getElementById('form-modificar');
 let botones = {
     anular: document.getElementById('boton-anular'),
     actualizar: document.getElementById('boton-actualizar'),
-    pagar: document.getElementById('boton-pagar')
+    pagar: document.getElementById('boton-pagar'),
+    dicom: document.getElementById('boton-dicom')
 };
 let pagar = {
     modal: $("#modal-pagar"),
@@ -34,6 +35,15 @@ $(document).ready(function() {
     }
     
 });
+
+/**
+ * Dicom
+ */
+if(botones.dicom != null) {
+    botones.dicom.onclick = function() {
+        console.log('dicom')
+    }
+}
 
 /**
  * Anular

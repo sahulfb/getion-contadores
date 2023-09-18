@@ -3,7 +3,8 @@ let form = document.getElementById('form-modificar');
 let botones = {
     anular: document.getElementById('boton-anular'),
     actualizar: document.getElementById('boton-actualizar'),
-    pagar: document.getElementById('boton-pagar')
+    pagar: document.getElementById('boton-pagar'),
+   dicom: document.getElementById('boton-dicom')
 };
 let pagar = {
     modal: $("#modal-pagar"),
@@ -30,6 +31,9 @@ $(document).ready(function() {
         
         case 4:
             inputStatus.setAttribute('class', `${baseClass} bg-success text-white`);
+
+        case 5:
+            inputStatus.setAttribute('class', `${baseClass} bg-danger text-white`);
         break;
     }
     
@@ -140,6 +144,41 @@ if(botones.pagar != null) {
         });
     }
 }
+
+/**
+ * Dicom
+ */
+if(botones.dicom != null) {
+    botones.dicom.onclick = function() {
+        Dicom();
+    }
+
+    function Dicom() {
+        let d = confirm('¿Esta seguro que desea cambiar el status a dicom de la factura N° '+ID_FACTURA+'?');
+        if(d === false) return;
+        let url = `${BASE_URL}/Facturas/CRUD/Dicom/`;
+        let data = new FormData();
+        data.append('idFactura', ID_FACTURA);
+        data.append('observacion', inputObservacion.value);
+
+        AJAX.enviar({
+            url: url,
+            data: data,
+            antes() {
+                Loader.show();
+            },
+            error(mensaje) {
+                Loader.hide();
+                Alerta.danger('Dicom factura', mensaje);
+            },
+            ok(data) {
+                Loader.hide();
+                location.reload();
+            }
+        });
+    }
+}
+
 
 cobros_adicionales_estaticos();
 function cobros_adicionales_estaticos() {

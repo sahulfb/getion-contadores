@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.40, created on 2023-09-13 03:15:39
+/* Smarty version 3.1.40, created on 2023-09-13 04:08:10
   from 'C:\Users\user\Desktop\sql\app\app\facturas\templates\ver.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.40',
-  'unifunc' => 'content_6501295bd3ab15_15313887',
+  'unifunc' => 'content_650135aa70bdd1_37145188',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2ef11256f3d15e19ebacd4e8dd4fb66c6a59837c' => 
     array (
       0 => 'C:\\Users\\user\\Desktop\\sql\\app\\app\\facturas\\templates\\ver.tpl',
-      1 => 1694574937,
+      1 => 1694578087,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_6501295bd3ab15_15313887 (Smarty_Internal_Template $_smarty_tpl) {
+function content_650135aa70bdd1_37145188 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'C:\\Users\\user\\Desktop\\sql\\app\\vendor\\smarty\\smarty\\libs\\plugins\\modifier.date_format.php','function'=>'smarty_modifier_date_format',),));
 echo '<script'; ?>
 >
@@ -284,7 +284,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
             </button>
 
                <button type="button" class="btn btn-danger" style="width: 100px;" id="boton-dicom">
-                Dicom
+               Dicom
             </button>
             <?php }?>
         </div>

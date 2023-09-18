@@ -50,6 +50,21 @@ class controlador
         ]);
     }
 
+    public function dicom() {
+        $status = StatusFacturasModel::Buscar();
+        $empresas = EmpresasModel::Buscar(['isDeleted' => '0']);
+
+        Incluir::template('templates/index.tpl', [
+            "status" => $status,
+            "empresas" => $empresas,
+            "titulo" => "Facturas - Dicom",
+            "con_filtros" => FALSE,
+            "status_defecto" => 5,
+        ], [
+            'js' => ['public/js/index.js']
+        ]);
+    }
+
     public function vencidos() {
         $status = StatusFacturasModel::Buscar();
         $empresas = EmpresasModel::Buscar(['isDeleted' => '0']);
@@ -279,6 +294,8 @@ class controlador
             case 'PAGAR': pagar();
             break;
             case 'EMPRESAS': empresas();
+            break;
+            case 'DICOM': dicom();
             break;
             default: throw new Exception("Acción invalida.");
         }

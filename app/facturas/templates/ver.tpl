@@ -203,6 +203,10 @@
             <button type="button" class="btn btn-success" style="width: 100px;" id="boton-pagar">
                 Pagar
             </button>
+
+               <button type="button" class="btn btn-danger" style="width: 100px;" id="boton-dicom">
+               Dicom
+            </button>
             {/if}
         </div>
     </form>

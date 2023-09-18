@@ -80,6 +80,7 @@ class FacturaModel
         }
     }
 
+    
     public function Pagar($idMetodoPago, $fechaPago) {
         $data = [
             'idStatus' => '4',
@@ -90,6 +91,18 @@ class FacturaModel
         $resp = Conexion::db()->update('facturas', $data);
         if(!$resp) {
             throw new Exception('Ocurrio un error al intentar pagar el factura.');
+        }
+    }
+
+    public function Dicom($observacion) {
+        $data = [
+            'idStatus' => '5',
+            'observacion' => $observacion
+        ];
+        Conexion::db()->where('idFactura', $this->id);
+        $resp = Conexion::db()->update('facturas', $data);
+        if(!$resp) {
+            throw new Exception('Ocurrio un error al intentar colocar en status dicom la factura.');
         }
     }
 }

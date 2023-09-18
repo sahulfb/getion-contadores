@@ -25,7 +25,7 @@ function consultar() {
             $fechaHasta = $rangoFecha[1];
 
             if($where != "") $where .= " AND ";
-            $where .= "fechaCobro >= \"{$fechaDesde}\" AND fechaCobro <= \"{$fechaHasta}\"";
+            $where .= "fechaPago >= \"{$fechaDesde}\" AND fechaPago <= \"{$fechaHasta}\"";
         }
     }
     
@@ -289,9 +289,30 @@ function anular() {
         'idFactura' => $objFactura->id,
         'ok' => TRUE
     ]);
-
-
 }
+
+function dicom() {
+    $idFactura = Input::post('idFactura', TRUE);
+    $objFactura = new FacturaModel($idFactura);
+    $observacion = Input::post('observacion', TRUE);
+
+    if($observacion == "") {
+        throw new Exception("El campo de 'observación es obligatorio.");
+    }
+    if(!($objFactura->idStatus == 1 OR $objFactura->idStatus == 2)) {
+        throw new Exception('Las facturas solo pueden cambiar a dicom cuando estan en status "PENDIENTE" o "VENCIDO".');
+    }
+
+    Conexion::db()->startTransaction();
+    $objFactura->Dicom($observacion);
+    Conexion::Db()->commit();
+
+    sendJson([
+        'idFactura' => $objFactura->id,
+        'ok' => TRUE
+    ]);
+}
+
 
 function pagar() {
     $idFactura = Input::post('idFactura', TRUE);

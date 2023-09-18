@@ -179,6 +179,12 @@ class Incluir
                             'icon' => 'far fa-circle',
                             'link' => BASE_URL.'/Facturas/Vencidos/',
                         ],
+                        [
+                            'slug' => 'dicom',
+                            'label' => 'Dicom',
+                            'icon' => 'far fa-circle',
+                            'link' => BASE_URL.'/Facturas/Dicom/',
+                        ],
                     ],
                 ],
                 [
